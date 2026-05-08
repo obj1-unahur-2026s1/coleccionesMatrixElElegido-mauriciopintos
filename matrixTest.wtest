@@ -1,9 +1,62 @@
+import nave.nave
+import matrix.*
 
-
-describe "group of tests " {
-
-  test "test 01" {
-    assert.equals(100, 50+50)
+describe "tests de la matrix" {
+  test "la nave tiene 3 pasajeros inicialmente" {
+    assert.equals(3, nave.cantidadDePasajeros())
   }
-
+  
+  test "neo esta en la nave" {
+    assert.that(nave.estaEnLaNave(neo))
+  }
+  
+  test "el de mayor vitalidad es neo" {
+    assert.equals(neo, nave.elDeMayorVitalidad())
+  }
+  
+  test "el de menor vitalidad es triniti" {
+    assert.equals(triniti, nave.elDeMenorVitalidad())
+  }
+  
+  test "la nave tiene al elegido" {
+    assert.that(nave.estaElElegido())
+  }
+  
+  test "hay alguien al horno (triniti tiene vitalidad 0)" {
+    assert.that(nave.hayAlgunoAlHorno())
+  }
+  
+  test "no todos pueden contra un agente (triniti tiene vitalidad 0)" {
+    assert.notThat(nave.todosPuedenContraUnAgente())
+  }
+  
+  test "bajar a neo de la nave reduce la cantidad de pasajeros" {
+    nave.bajarA(neo)
+    assert.equals(2, nave.cantidadDePasajeros())
+  }
+  
+  test "los pasajeros valiosos son neo y morfeo" {
+    assert.equals([neo, morfeo], nave.pasajerosValiosos())
+  }
+  
+  test "la vitalidad promedio es correcta" {
+    // neo=10, morfeo=8, triniti=0 → promedio = 6
+    assert.equals(6, nave.vitalidadPromedio())
+  }
+  
+  test "cuantos tienen vitalidad par" {
+    // neo=10 (par), morfeo=8 (par), triniti=0 (par) → 3
+    assert.equals(3, nave.cuantosTienenVitalidadPar())
+  }
+  
+  test "acelerar hace saltar a los que no son el elegido" {
+    const vitalidadMorfeoAntes = morfeo.vitalidad()
+    nave.acelerar()
+    assert.equals(vitalidadMorfeoAntes - 1, morfeo.vitalidad())
+  }
+  
+  test "chocar vacia la nave" {
+    nave.chocar()
+    assert.equals(0, nave.cantidadDePasajeros())
+  }
 }
